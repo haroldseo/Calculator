@@ -29,7 +29,13 @@ class Calculator {
     };
 
     chooseOperation(operation) {
-
+        if(this.currentOperand === '') return;
+        if(this.previousOperand !== '') {
+            this.compute();
+        }
+        this.operation = operation;
+        this.previousOperand = this.currentOperand;
+        this.currentOperand = '';
     };
 
     compute() {
@@ -38,6 +44,7 @@ class Calculator {
 
     updateDisplay() {
         this.currentOperandText.innerHTML = this.currentOperand;
+        this.previousOperandText.innerHTML = this.previousOperand;
     };
 };
 
@@ -49,3 +56,15 @@ numberButtons.forEach(button => {
         calculator.updateDisplay();
     });
 });
+
+operationButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        calculator.chooseOperation(button.innerHTML);
+        calculator.updateDisplay();
+    });
+});
+
+equalsButton.addEventListener('click', button => {
+    calculator.compute();
+    calculator.updateDisplay();
+})
